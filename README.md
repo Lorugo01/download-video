@@ -109,6 +109,7 @@ download-video/
 - O yt-dlp baixa separadamente vídeo e áudio e depois mescla
 - Vídeos protegidos por DRM não podem ser baixados
 - Use apenas para conteúdo que você tem permissão para baixar
+- Warnings sobre JavaScript runtime e SABR streaming são normais e não afetam o funcionamento
 
 ## 🛠️ Tecnologias
 

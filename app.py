@@ -27,10 +27,11 @@ def get_ydl_opts_base():
     """
     Retorna configurações base do yt-dlp para melhor compatibilidade.
     Configuração simplificada que funciona sem autenticação.
+    Suprime warnings conhecidos que não afetam a funcionalidade.
     """
     return {
         'quiet': True,
-        'no_warnings': False,
+        'no_warnings': True,  # Suprime warnings (JS runtime, SABR streaming, etc.)
         'ignoreerrors': False,
         # Não especificar player_client - deixar yt-dlp escolher automaticamente
         # Isso geralmente funciona melhor com as atualizações do YouTube
