@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT Downloader - Baixe Videos do YouTube</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h1>YT<span class="accent">Down</span></h1>
+            </div>
+            <p class="tagline">Baixe videos do YouTube em alta qualidade</p>
+        </header>
+        <main class="main-content">
+            <div class="input-section">
+                <div class="input-wrapper">
+                    <div class="input-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 13C10.4295 13.5741 10.9774 14.0491 11.6066 14.3929C12.2357 14.7367 12.9315 14.9411 13.6467 14.9923C14.3618 15.0435 15.0796 14.9403 15.7513 14.6897C16.4231 14.4392 17.0331 14.047 17.54 13.54L20.54 10.54C21.4508 9.59695 21.9548 8.33394 21.9434 7.02296C21.932 5.71198 21.4061 4.45791 20.479 3.53087C19.5519 2.60383 18.2979 2.07799 16.9869 2.0666C15.6759 2.0552 14.4129 2.55918 13.47 3.46997L11.75 5.17997" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 11C13.5705 10.4259 13.0226 9.95087 12.3934 9.60707C11.7643 9.26327 11.0685 9.05885 10.3533 9.00763C9.63816 8.95641 8.92037 9.0597 8.24861 9.31025C7.57685 9.5608 6.96684 9.95304 6.45996 10.46L3.45996 13.46C2.54917 14.403 2.04519 15.666 2.05659 16.977C2.06798 18.288 2.59382 19.5421 3.52086 20.4691C4.4479 21.3962 5.70197 21.922 7.01295 21.9334C8.32393 21.9448 9.58694 21.4408 10.53 20.53L12.24 18.82" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <input type="text" id="urlInput" placeholder="Cole o link do video do YouTube aqui..." autocomplete="off">
+                    <button id="searchBtn" class="btn-search" title="Buscar video">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Buscar</span>
+                    </button>
+                </div>
+                <p class="input-hint">Suporta videos e playlists do YouTube</p>
+            </div>
+            <div id="loadingState" class="loading-state hidden">
+                <div class="loader">
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                    <div class="loader-ring"></div>
+                </div>
+                <p>Buscando informacoes do video...</p>
+            </div>
+            <div id="errorState" class="error-state hidden">
+                <div class="error-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M9 9L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <p id="errorMessage">Erro ao buscar video</p>
+                <button id="retryBtn" class="btn-secondary">Tentar novamente</button>
+            </div>
+            <div id="videoCard" class="video-card hidden">
+                <div class="video-thumbnail">
+                    <img id="videoThumbnail" src="" alt="Thumbnail">
+                    <div class="video-duration" id="videoDuration">00:00</div>
+                </div>
+                <div class="video-info">
+                    <h2 id="videoTitle" class="video-title">Titulo do Video</h2>
+                    <p id="videoChannel" class="video-channel">Canal do YouTube</p>
+                    <div class="video-meta">
+                        <span id="videoViews" class="meta-item">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>0 views</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div id="qualitySection" class="quality-section hidden">
+                <h3 class="section-title">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M8 21H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M12 17V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Escolha a Qualidade
+                </h3>
+                <div id="qualityGrid" class="quality-grid"></div>
+            </div>
+            <div id="progressSection" class="progress-section hidden">
+                <div class="progress-header">
+                    <span class="progress-label">Baixando...</span>
+                    <span id="progressPercent" class="progress-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <p id="progressInfo" class="progress-info">Preparando download...</p>
+            </div>
+            <div id="completeSection" class="complete-section hidden">
+                <div class="complete-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M22 4L12 14.01L9 11.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>Download Concluido!</h3>
+                <p id="downloadFilename">arquivo.mp4</p>
+                <div class="complete-actions">
+                    <a id="downloadLink" href="#" class="btn-primary" download>
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Salvar Arquivo
+                    </a>
+                    <button id="newDownloadBtn" class="btn-secondary">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Novo Download
+                    </button>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <p>Feito com <span class="heart">&#9829;</span> usando Python + Flask + yt-dlp</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

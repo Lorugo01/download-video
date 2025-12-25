@@ -1,0 +1,7 @@
+# YouTube Video Downloader
+# Python 3.10+
+
+flask==3.0.0
+yt-dlp==2024.12.13
+flask-cors==4.0.0
+
