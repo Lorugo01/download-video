@@ -38,9 +38,10 @@ choco install ffmpeg
 
 ## 🚀 Instalação
 
-1. **Clone ou navegue até o diretório:**
+1. **Clone o repositório:**
 ```powershell
-cd C:\Users\J.Informatica\Desktop\app\Video
+git clone https://github.com/Lorugo01/download-video.git
+cd download-video
 ```
 
 2. **Crie um ambiente virtual (recomendado):**
@@ -65,11 +66,12 @@ Acesse: **http://localhost:5000**
 ## 📁 Estrutura do Projeto
 
 ```
-Video/
+download-video/
 ├── app.py              # Backend Flask
 ├── requirements.txt    # Dependências Python
 ├── README.md           # Este arquivo
-├── downloads/          # Pasta de downloads (criada automaticamente)
+├── .gitignore          # Arquivos ignorados pelo Git
+├── downloads/          # Pasta de downloads (criada automaticamente, ignorada pelo Git)
 ├── templates/
 │   └── index.html      # Template HTML
 └── static/
@@ -78,6 +80,8 @@ Video/
     └── js/
         └── app.js      # JavaScript frontend
 ```
+
+> **Nota:** A pasta `downloads/` é criada automaticamente na primeira execução e está configurada no `.gitignore` para não ser versionada no repositório.
 
 ## 🔧 API Endpoints
 

@@ -10,7 +10,6 @@ ENV/
 build/
 develop-eggs/
 dist/
-downloads/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -34,9 +33,6 @@ desktop.ini
 # Logs
 *.log
 
-# Arquivos baixados (não versionar vídeos/áudios baixados)
-downloads/*.mp4
-downloads/*.mp3
-downloads/*.webm
-downloads/*.mkv
+# Pasta de downloads (ignora toda a pasta e seu conteúdo)
+downloads/
 
